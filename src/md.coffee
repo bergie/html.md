@@ -15,6 +15,7 @@ DEFAULT_OPTIONS   =
   base:     if window? then window.document.baseURI else "file://#{process.cwd()}"
   debug:    no
   inline:   no
+  allowTags: no
 # Save the previous value of the global `md` variable for *noConflict* mode.
 PREVIOUS_MD       = @md
 # Map of replacement strings for *special* Markdown characters.
@@ -482,6 +483,11 @@ class HtmlParser
             # Frames are **HELL** (fact!), but we'll do our best to support their contents.
             when 'FRAME', 'IFRAME'
               skipChildren = yes
+
+              if @options.allowTags
+                do @p
+                @output ele.outerHTML
+                do @p
 
               try
                 if ele.contentDocument?.documentElement

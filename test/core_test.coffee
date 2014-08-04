@@ -34,8 +34,15 @@ exports.fixtures = (
     (test) ->
       html     = fs.readFileSync path.join(FIXTURES_DIR, "#{name}.html"), ENCODING
       markdown = fs.readFileSync path.join(EXPECTED_DIR, "#{name}.md"),   ENCODING
+      try
+        markdownAllow = fs.readFileSync path.join(EXPECTED_DIR, "#{name}-allow.md"),   ENCODING
+      catch e
+        markdownAllow = markdown
 
       test.equal md(html), markdown, "#{name} fixtures should match"
+      test.equal md(html,
+        allowTags: true
+      ), markdownAllow, "#{name} fixtures should match when markup is allowed"
       test.done()
 
   fixtures = (
