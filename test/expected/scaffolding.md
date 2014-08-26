@@ -14,8 +14,6 @@ nav
 header
 
 footer
-
-article
 hgroup
 
 div

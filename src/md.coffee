@@ -83,7 +83,6 @@ R_IGNORE_CHILDREN = /// ^ (
 # Regular expression to identify elements to be parsed as simple paragraphs.
 R_PARAGRAPH_ONLY  = /// ^ (
     ADDRESS
-  | ARTICLE
   | ASIDE
   | DIV
   | FIELDSET
@@ -494,6 +493,13 @@ class HtmlParser
                   @process ele.contentDocument.documentElement
               catch err
                 @thrown err, 'contentDocument'
+            when 'ARTICLE'
+              if @options.allowTags
+                do @p
+                @output ele.outerHTML
+                do @p
+                return
+              do @p
             # Table rows should just be separated, that's all.
             when 'TR' then after = @p
             # Couldn't find a suitable match for `ele` so let's ignore it, but we'll still process
