@@ -54,7 +54,6 @@ R_IGNORE_CHILDREN = /// ^ (
     APPLET
   | AREA
   | AUDIO
-  | BUTTON
   | CANVAS
   | DATALIST
   | EMBED
@@ -494,6 +493,13 @@ class HtmlParser
               catch err
                 @thrown err, 'contentDocument'
             when 'ARTICLE'
+              if @options.allowTags
+                do @p
+                @output ele.outerHTML
+                do @p
+                return
+              do @p
+            when 'BUTTON'
               if @options.allowTags
                 do @p
                 @output ele.outerHTML
